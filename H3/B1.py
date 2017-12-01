@@ -30,34 +30,23 @@ def break_concealing(alice_commit, alice_v, X):
     while( k < 2**16 ):
         zero_commit = create_commit(0, k, X)
         one_commit = create_commit(1, k, X)
-
         if(zero_commit == alice_commit):
             zersies += 1
         if(one_commit == alice_commit):
             onesies += 1
         k += 1
-    print(zersies, " ", onesies)
     nom = zersies if alice_v==0 else onesies
-
-    print(nom/(zersies+onesies), " ", nom)
     return nom / (zersies + onesies)
 
-max_X = 25
-prob_binding = []
-prob_concealing = []
-dnom = 10
+max_X, prob_binding, prob_concealing, dnom = 25, [], [], 10
 for X in range(max_X):
     alice_v = random.randint(0,1)
     k = get_random_k()
     alice_commit = create_commit(alice_v, k, X)
-
-    print(X)
-
     binding = [break_binding(alice_commit, k, alice_v, X) for i in range(dnom)]
-   concealing = [break_concealing(alice_commit, alice_v, X) for i in range(dnom)]
-
+    concealing = [break_concealing(alice_commit, alice_v, X) for i in range(dnom)]
     prob_binding.append(sum(binding) / dnom)
-   prob_concealing.append(sum(concealing) / dnom)
+    prob_concealing.append(sum(concealing) / dnom)
 
 plt.plot(range(max_X), prob_binding, label='binding')
 plt.plot(range(max_X), prob_concealing, label='breaking')
