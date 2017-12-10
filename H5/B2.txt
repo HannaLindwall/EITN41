@@ -1,0 +1,6 @@
+To get subject
+cms -decrypt -in mail.msg -recip certreceiver.pem -inkey keyreceiver.pem
+
+cms -decrypt -in mail.msg -recip certreceiver.pem -inkey keyreceiver.pem -out decrypt.txt
+cms -digest_verify -CAfile CAcert.pem -in decrypt.txt
+
